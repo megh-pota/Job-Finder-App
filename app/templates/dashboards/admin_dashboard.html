@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4">Admin Analytics Dashboard</h2>
+
+<!-- ======================
+     SUMMARY STATS
+======================= -->
+<div class="row mb-4">
+
+    <div class="col-md-3">
+        <div class="card shadow-sm text-center">
+            <div class="card-body">
+                <h6>Total Users</h6>
+                <h3>{{ total_users }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm text-center">
+            <div class="card-body">
+                <h6>Total Jobs</h6>
+                <h3>{{ total_jobs }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm text-center">
+            <div class="card-body">
+                <h6>Total Applications</h6>
+                <h3>{{ total_applications }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm text-center">
+            <div class="card-body">
+                <h6>Avg Match Score</h6>
+                <h3>{{ avg_match_score }}%</h3>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ======================
+     CHART SECTION
+======================= -->
+<div class="row">
+
+    <!-- Users by Role -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="text-center">Users By Role</h5>
+                <canvas id="usersChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jobs per Company -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="text-center">Jobs per Company</h5>
+                <canvas id="jobsChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Applications per Job -->
+    <div class="col-md-12 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="text-center">Applications per Job</h5>
+                <canvas id="applicationsChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ======================
+     TOP SKILLS (ML)
+======================= -->
+<h4 class="mt-4">Top Skills (Extracted from Resumes)</h4>
+
+<div class="mb-4">
+    {% for skill, count in skill_count.items() %}
+        <span class="badge bg-primary me-1 mb-1">
+            {{ skill }} ({{ count }})
+        </span>
+    {% endfor %}
+</div>
+
+<!-- ========================
+     CHART.JS
+========================= -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+/* USERS BY ROLE */
+new Chart(document.getElementById('usersChart'), {
+    type: 'pie',
+    data: {
+        labels: {{ role_counts.keys() | list | tojson }},
+        datasets: [{
+            data: {{ role_counts.values() | list | tojson }},
+            backgroundColor: [
+                "#ff6384", "#36a2eb", "#ffcd56", "#4bc0c0", "#9966ff"
+            ]
+        }]
+    }
+});
+
+/* JOBS PER COMPANY */
+new Chart(document.getElementById('jobsChart'), {
+    type: 'bar',
+    data: {
+        labels: {{ company_names | tojson }},
+        datasets: [{
+            label: 'Jobs Posted',
+            data: {{ job_counts | tojson }},
+            backgroundColor: "#36a2eb"
+        }]
+    },
+    options: {
+        scales: { y: { beginAtZero: true } }
+    }
+});
+
+/* APPLICATIONS PER JOB */
+new Chart(document.getElementById('applicationsChart'), {
+    type: 'bar',
+    data: {
+        labels: {{ job_titles | tojson }},
+        datasets: [{
+            label: 'Applications',
+            data: {{ apps_per_job | tojson }},
+            backgroundColor: "#ff6384"
+        }]
+    },
+    options: {
+        indexAxis: 'y',
+        scales: { x: { beginAtZero: true } }
+    }
+});
+</script>
+
+{% endblock %}

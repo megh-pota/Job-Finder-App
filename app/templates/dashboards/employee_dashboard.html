@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Employee Dashboard</h2>
+
+<p class="text-muted">
+    Welcome <strong>{{ user.name }}</strong>
+</p>
+
+<!-- ============================
+     DASHBOARD SUMMARY CARDS
+=============================== -->
+<div class="row mt-4">
+
+    <!-- Applied Jobs Count -->
+    <div class="col-md-4">
+        <div class="card shadow-sm p-3">
+            <h5>Applied Jobs</h5>
+            <p class="fs-3">{{ applied_count }}</p>
+            <a href="{{ url_for('employee.applied_jobs') }}"
+               class="btn btn-outline-primary btn-sm">
+                View All Applications
+            </a>
+        </div>
+    </div>
+
+    <!-- Browse Jobs -->
+    <div class="col-md-4">
+        <div class="card shadow-sm p-3">
+            <h5>Find New Jobs</h5>
+            <p>Explore opportunities in other companies</p>
+            <a href="{{ url_for('jobs.jobs_list') }}"
+               class="btn btn-success btn-sm">
+                Browse Jobs
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<!-- ============================
+     RECENT APPLICATIONS
+=============================== -->
+<h4 class="mt-5">Recent Applications</h4>
+
+{% if applications %}
+<table class="table table-bordered table-hover mt-3">
+    <thead class="table-light">
+        <tr>
+            <th>Job Title</th>
+            <th>Company</th>
+            <th>Status</th>
+            <th>Applied On</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for app in applications %}
+        <tr>
+            <td>{{ app.job.title }}</td>
+            <td>{{ app.job.company.name }}</td>
+            <td>
+                <span class="badge bg-secondary">
+                    {{ app.status }}
+                </span>
+            </td>
+            <td>{{ app.applied_at.strftime("%d %b %Y") }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="text-muted mt-3">You have not applied to any jobs yet.</p>
+{% endif %}
+
+{% endblock %}

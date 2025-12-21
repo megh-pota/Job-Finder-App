@@ -1,0 +1,174 @@
+/* Flash messages */
+.flash.success{color:green;}
+.flash.danger{color:red;}
+.flash.info{color:blue;}
+
+/* Login form */
+.login-box{
+max-width: 400px;
+margin: 40px auto;
+padding: 30px;
+background-color:white;
+border-radius:8px;
+box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* -------------------------------
+   GLOBAL LAYOUT
+--------------------------------*/
+body {
+    background-color: #f4f6f9;
+    font-family: "Inter", Arial, sans-serif;
+    color: #333;
+}
+
+.container {
+    max-width: 1100px;
+}
+
+/* -------------------------------
+   NAVBAR
+--------------------------------*/
+.navbar {
+    padding: 0.8rem 1rem;
+}
+
+.navbar-brand {
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* -------------------------------
+   CARDS
+--------------------------------*/
+.card {
+    border-radius: 8px;
+    border: 1px solid #e3e6ea;
+}
+
+.card-body {
+    padding: 1.2rem 1.4rem;
+}
+
+.card-title {
+    font-weight: 600;
+}
+
+/* -------------------------------
+   TABLES
+--------------------------------*/
+.table {
+    background: #ffffff;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.table th {
+    background: #2c3e50 !important;
+    color: #fff !important;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.table td {
+    vertical-align: middle;
+    font-size: 0.92rem;
+}
+
+/* Hover effect */
+.table tbody tr:hover {
+    background-color: #f0f4ff;
+    transition: 0.2s ease-in-out;
+}
+
+/* -------------------------------
+   BUTTONS
+--------------------------------*/
+.btn {
+    border-radius: 6px !important;
+    font-weight: 500 !important;
+}
+
+/* Primary */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #006fe6;
+}
+
+.btn-primary:hover {
+    background-color: #0068d9;
+}
+
+/* Success */
+.btn-success {
+    background-color: #28a745;
+    border-color: #218838;
+}
+
+.btn-success:hover {
+    background-color: #1f7e34;
+}
+
+/* Outline buttons */
+.btn-outline-light {
+    color: #fff !important;
+    border-color: #fff !important;
+}
+.btn-outline-light:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+/* -------------------------------
+   FORMS
+--------------------------------*/
+form {
+    background: #ffffff;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+}
+
+form .form-label {
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+form .form-control {
+    border-radius: 6px;
+}
+
+/* -------------------------------
+   HEADINGS
+--------------------------------*/
+h2, h3, h4, h5 {
+    font-weight: 600;
+    color: #333;
+}
+
+/* -------------------------------
+   UTILITIES
+--------------------------------*/
+.mb-4 {
+    margin-bottom: 1.4rem !important;
+}
+.mb-3 {
+    margin-bottom: 1rem !important;
+}
+
+.shadow-sm {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06) !important;
+}
+
+body {
+    background: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+.card {
+    border-radius: 8px;
+}
+
+.table th {
+    background: #222;
+    color: #fff;
+}

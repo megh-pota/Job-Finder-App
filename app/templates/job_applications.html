@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4">
+    Applications for: <strong>{{ job.title }}</strong>
+</h2>
+
+{% if applications %}
+
+<div class="table-responsive">
+<table class="table table-striped shadow-sm align-middle">
+
+    <thead class="table-dark">
+        <tr>
+            <th>Rank</th>
+            <th>Applicant</th>
+            <th>Match %</th>
+            <th>Matched Skills</th>
+            <th>Resume</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for app in applications %}
+        <tr>
+
+            <!-- =========================
+                 RANKING
+            ========================== -->
+            <td>
+                {% if loop.index == 1 %}
+                    🥇
+                {% elif loop.index == 2 %}
+                    🥈
+                {% elif loop.index == 3 %}
+                    🥉
+                {% else %}
+                    {{ loop.index }}
+                {% endif %}
+            </td>
+
+            <!-- =========================
+                 APPLICANT
+            ========================== -->
+            <td>
+                <strong>{{ app.seeker.name }}</strong><br>
+                <small class="text-muted">{{ app.seeker.email }}</small>
+            </td>
+
+            <!-- =========================
+                 MATCH SCORE
+            ========================== -->
+            <td>
+                {% if app.match_score %}
+                    {% if app.match_score >= 75 %}
+                        <span class="badge bg-success">
+                            {{ app.match_score }}%
+                        </span>
+                    {% elif app.match_score >= 50 %}
+                        <span class="badge bg-warning text-dark">
+                            {{ app.match_score }}%
+                        </span>
+                    {% else %}
+                        <span class="badge bg-secondary">
+                            {{ app.match_score }}%
+                        </span>
+                    {% endif %}
+                {% else %}
+                    <span class="text-muted">N/A</span>
+                {% endif %}
+            </td>
+
+            <!-- =========================
+                 SKILLS
+            ========================== -->
+            <td>
+                {% if app.skills %}
+                    {% for skill in app.skills.split(',') %}
+                        <span class="badge bg-info text-dark me-1 mb-1">
+                            {{ skill.strip() }}
+                        </span>
+                    {% endfor %}
+                {% else %}
+                    <span class="text-muted">
+                        No skills extracted
+                    </span>
+                {% endif %}
+            </td>
+
+            <!-- =========================
+                 RESUME
+            ========================== -->
+            <td>
+                {% if app.resume_file_path %}
+                <a class="btn btn-sm btn-outline-primary"
+                   href="{{ url_for('static', filename=app.resume_file_path) }}"
+                   target="_blank">
+                   📄 View Resume
+                </a>
+                {% else %}
+                <span class="text-muted">No resume</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+</div>
+
+{% else %}
+<p class="text-muted">
+    No applications for this job yet.
+</p>
+{% endif %}
+
+{% endblock %}

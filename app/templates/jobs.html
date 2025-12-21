@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4">All Jobs</h2>
+
+<!-- =========================
+     DYNAMIC SKILL FILTER (SAFE)
+========================= -->
+<form method="GET" class="row g-2 mb-4">
+    <div class="col-md-4">
+        <select name="skill"
+                class="form-select"
+                onchange="this.form.submit()">
+
+            <option value="">-- Filter by Skill --</option>
+
+            {% for skill in skills %}
+                <option value="{{ skill }}"
+                    {% if request.args.get('skill') == skill %}selected{% endif %}>
+                    {{ skill }}
+                </option>
+            {% endfor %}
+
+        </select>
+    </div>
+</form>
+
+
+<!-- =========================
+     JOB LIST
+========================= -->
+<div class="row">
+    {% for job in jobs %}
+    <div class="col-md-6 mb-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <h5 class="card-title">{{ job.title }}</h5>
+
+                <p class="text-muted mb-1">
+                    {{ job.company.name }} • {{ job.location }}
+                </p>
+
+                <p class="mb-2">
+                    {{ job.description[:200] }}
+                    {% if job.description|length > 200 %}...{% endif %}
+                </p>
+
+                <a href="{{ url_for('jobs.job_detail', job_id=job.id) }}"
+                   class="btn btn-outline-primary btn-sm">
+                    View Job
+                </a>
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if not jobs %}
+<p class="text-muted">No jobs available for the selected skill.</p>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Business Dashboard</h2>
+
+{% if 'post_job' in permissions %}
+    <a href="{{ url_for('jobs.create_job') }}" class="btn btn-success">
+        Post New Job
+    </a>
+{% endif %}
+
+{% endblock %}

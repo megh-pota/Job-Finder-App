@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4">Companies</h2>
+
+<div class="row">
+    {% for company in companies %}
+    <div class="col-md-4 mb-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">{{ company.name }}</h5>
+                <p class="text-muted">{{ company.industry }}</p>
+                <p>{{ company.description[:120] }}...</p>
+
+                {% if company.website %}
+                <a href="{{ company.website }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                    Visit Website
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if not companies %}
+<p class="text-muted">No companies found.</p>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-3">Manage Users</h2>
+
+<!-- SEARCH + FILTERS -->
+<form method="GET" class="row mb-3">
+
+    <div class="col-md-4">
+        <input type="text" name="search" class="form-control"
+               placeholder="Search name or email"
+               value="{{ search or '' }}">
+    </div>
+
+    <div class="col-md-3">
+        <select name="role" class="form-select">
+            <option value="all">All Roles</option>
+            <option value="admin" {% if role=='admin' %}selected{% endif %}>Admin</option>
+            <option value="business" {% if role=='business' %}selected{% endif %}>Business</option>
+            <option value="employee" {% if role=='employee' %}selected{% endif %}>Employee</option>
+            <option value="job_seeker" {% if role=='job_seeker' %}selected{% endif %}>Job Seeker</option>
+            <option value="suspended" {% if role=='suspended' %}selected{% endif %}>Suspended</option>
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <button class="btn btn-primary w-100">Apply</button>
+    </div>
+
+</form>
+
+<!-- USERS TABLE -->
+<table class="table table-bordered table-striped shadow-sm">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th><th>Name</th><th>Email</th><th>Role</th><th width="260">Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for u in users %}
+        <tr>
+            <td>{{ u.id }}</td>
+            <td>{{ u.name }}</td>
+            <td>{{ u.email }}</td>
+            <td>{{ u.user_type }}</td>
+
+            <td>
+                <a href="{{ url_for('users.view_user', user_id=u.id) }}"
+                   class="btn btn-info btn-sm">View</a>
+
+                <a href="{{ url_for('users.edit_user', user_id=u.id) }}"
+                   class="btn btn-warning btn-sm">Edit</a>
+
+                {% if u.user_type != 'suspended' %}
+                <a href="{{ url_for('users.suspend_user', user_id=u.id) }}"
+                   class="btn btn-secondary btn-sm">Suspend</a>
+                {% else %}
+                <a href="{{ url_for('users.activate_user', user_id=u.id) }}"
+                   class="btn btn-success btn-sm">Activate</a>
+                {% endif %}
+
+                <a href="{{ url_for('users.delete_user', user_id=u.id) }}"
+                   class="btn btn-danger btn-sm"
+                   onclick="return confirm('Delete this user?')">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+
+<!-- PAGINATION -->
+<div class="d-flex justify-content-center mt-3">
+    {% if pagination.has_prev %}
+        <a class="btn btn-outline-primary me-2"
+           href="{{ url_for('users.users_list', page=pagination.prev_num, role=role, search=search) }}">
+           Previous
+        </a>
+    {% endif %}
+
+    {% if pagination.has_next %}
+        <a class="btn btn-outline-primary"
+           href="{{ url_for('users.users_list', page=pagination.next_num, role=role, search=search) }}">
+           Next
+        </a>
+    {% endif %}
+</div>
+
+{% endblock %}

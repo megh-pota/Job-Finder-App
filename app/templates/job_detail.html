@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        <h3>{{ job.title }}</h3>
+        <p class="text-muted">
+            {{ job.company.name }} • {{ job.location }} • {{ job.job_type }}
+        </p>
+
+        <hr>
+
+        <div>
+            <p>{{ job.description }}</p>
+        </div>
+
+        <div class="mt-4">
+
+            <!-- ============================
+                 APPLY JOB (JOB SEEKER + EMPLOYEE)
+            =============================== -->
+            {% if session.get('user_type') in ['job_seeker', 'employee'] %}
+            <form method="POST"
+                  enctype="multipart/form-data"
+                  action="{{ url_for('applications.apply_job', job_id=job.id) }}"
+                  class="mt-3">
+
+                <div class="mb-3">
+                    <label class="form-label">
+                        Upload Resume <span class="text-danger">*</span>
+                    </label>
+                    <input type="file"
+                           name="resume"
+                           class="form-control"
+                           accept=".pdf,.doc,.docx"
+                           required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Apply Now
+                </button>
+            </form>
+            {% endif %}
+
+            <!-- ============================
+                 BUSINESS CONTROLS
+            =============================== -->
+            {% if session.get('user_type') == 'business'
+                  and session.get('user_id') == job.posted_by_user_id %}
+
+            <a href="{{ url_for('jobs.edit_job', job_id=job.id) }}"
+               class="btn btn-warning ms-2">
+                Edit
+            </a>
+
+            <form method="POST"
+                  action="{{ url_for('jobs.delete_job', job_id=job.id) }}"
+                  style="display:inline;">
+                <button class="btn btn-danger ms-2"
+                        onclick="return confirm('Delete this job?')">
+                    Delete
+                </button>
+            </form>
+
+            <a href="{{ url_for('applications.view_job_applications', job_id=job.id) }}"
+               class="btn btn-outline-primary ms-2">
+                View Applications
+            </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+</div>
+<!-- ============================
+     SIMILAR JOBS (ML)
+=============================== -->
+{% if similar_jobs %}
+<div class="card shadow-sm mt-4">
+    <div class="card-body">
+
+        <h5 class="mb-3">Similar Jobs You May Like</h5>
+
+        <ul class="list-group">
+            {% for sim_job, score in similar_jobs %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <a href="{{ url_for('jobs.job_detail', job_id=sim_job.id) }}">
+                        {{ sim_job.title }}
+                    </a>
+                    <div class="text-muted small">
+                        {{ sim_job.company.name }} • {{ sim_job.location }}
+                    </div>
+                </div>
+
+                <span class="badge bg-info">
+                    {{ (score * 100) | round(1) }}%
+                </span>
+            </li>
+            {% endfor %}
+        </ul>
+
+    </div>
+</div>
+
+{% endif %}
+
+
+
+{% endblock %}

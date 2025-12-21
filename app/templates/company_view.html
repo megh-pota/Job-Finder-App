@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-3">My Company</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h3>{{ company.name }}</h3>
+        <p class="text-muted">{{ company.industry }}</p>
+
+        <p>{{ company.description }}</p>
+
+        {% if company.website %}
+        <p>
+            <a href="{{ company.website }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                Visit Website
+            </a>
+        </p>
+        {% endif %}
+
+        <a href="/companies/edit" class="btn btn-primary">Edit Company</a>
+    </div>
+</div>
+
+{% endblock %}

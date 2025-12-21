@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>User Details</h2>
+
+<div class="card shadow-sm mb-3">
+    <div class="card-body">
+        <p><strong>ID:</strong> {{ user.id }}</p>
+        <p><strong>Name:</strong> {{ user.name }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Role:</strong> {{ user.user_type }}</p>
+    </div>
+</div>
+
+<!-- RESET PASSWORD -->
+<div class="card shadow-sm mb-3">
+    <div class="card-body">
+        <h5>Reset Password</h5>
+
+        <form method="POST" action="{{ url_for('users.reset_user_password', user_id=user.id) }}">
+            <input type="text" class="form-control mb-2" name="new_password" placeholder="New Password" required>
+
+            <button class="btn btn-danger w-100">Reset Password</button>
+        </form>
+    </div>
+</div>
+
+<a href="{{ url_for('users.users_list') }}" class="btn btn-secondary">Back</a>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Edit User</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        <form method="POST">
+
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input class="form-control" name="name" value="{{ user.name }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input class="form-control" name="email" value="{{ user.email }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Role</label>
+                <select class="form-select" name="user_type">
+
+                    <option value="admin" {% if user.user_type=='admin' %}selected{% endif %}>Admin</option>
+                    <option value="business" {% if user.user_type=='business' %}selected{% endif %}>Business</option>
+                    <option value="employee" {% if user.user_type=='employee' %}selected{% endif %}>Employee</option>
+                    <option value="job_seeker" {% if user.user_type=='job_seeker' %}selected{% endif %}>Job Seeker</option>
+
+                </select>
+            </div>
+
+            <button class="btn btn-primary w-100">Save Changes</button>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4">My Job Applications</h2>
+
+{% if applications %}
+<table class="table table-striped shadow-sm">
+    <thead class="table-dark">
+        <tr>
+            <th>Job Title</th>
+            <th>Company</th>
+            <th>Applied On</th>
+            <th>Match %</th>
+            <th>Resume</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for app in applications %}
+        <tr>
+            <td>{{ app.job.title }}</td>
+            <td>{{ app.job.company.name }}</td>
+            <td>{{ app.applied_at.strftime('%d %b %Y') }}</td>
+
+            <!-- ML MATCH SCORE -->
+            <td>
+                {% if app.match_score %}
+                <span class="badge bg-success">
+                    {{ app.match_score }}%
+                </span>
+                {% else %}
+                <span class="badge bg-secondary">N/A</span>
+                {% endif %}
+            </td>
+
+            <!-- RESUME DOWNLOAD -->
+            <td>
+                <a class="btn btn-sm btn-outline-primary"
+                   href="{{ url_for('static',
+                       filename=app.resume_file_path.replace('app/static/', '')
+                   ) }}"
+                   download>
+                   Download Resume
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% else %}
+<p class="text-muted">You have not applied for any jobs yet.</p>
+{% endif %}
+
+{% endblock %}

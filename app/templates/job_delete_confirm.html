@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="mb-3">Delete Job</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <p>Are you sure you want to delete the job: <strong>{{ job.title }}</strong>?</p>
+
+        <form method="POST" action="{{ url_for('jobs.delete_job', job_id=job.id) }}">
+            <button class="btn btn-danger">Yes, Delete</button>
+            <a class="btn btn-secondary" href="{{ url_for('jobs.my_jobs') }}">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
