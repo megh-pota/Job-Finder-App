@@ -26,8 +26,7 @@ A full-stack web application that automates job matching using Machine Learning 
 - Admin analytics dashboard (users, jobs, applications)
 
 ### 📧 Communication
-- Secure email invitations for interviews and job offers
-- Resume preview and download
+- Resume preview and download by interviewer 
 
 ---
 
