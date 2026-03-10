@@ -40,6 +40,3 @@ A full-stack web application that automates job matching using Machine Learning 
 - **Others:** Flask-Mail, Jinja2
 
 ---
-
-## 📂 Project Structure
-
